@@ -209,3 +209,5 @@ Promise对象中，无论是then方法，还是catch方法，都有返回值，�
 **后续的Promise一定会等到前面的Promise有了后续处理结果后，才变成已决状态**
 
 如果前面的Promise的后续处理，返回的是一个Promise，则返回的新的Promise状态和后续处理返回的Promise状态保持一致
+
+测试文字
