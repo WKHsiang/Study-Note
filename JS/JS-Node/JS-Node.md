@@ -416,6 +416,161 @@ JS为了增强原始类型的功能，为boolean、string、number分别创建�
 
 默认情况下，返回该对象本身
 
-在JS中，当自动进行类型转换时，如果要对一个对象进行转换，实际上实现调用对象的valueOf方法，然后调用对象的toString方法
+在JS中，当自动进行类型转换时，如果要对一个对象进行转换，实际上实现调用对象的valueOf方法，然后调用对象的toString方法，将得到的结果进行进一步转换。
 
 ### Function
+
+**所有函数都具有Function中的实例成员**
+
+#### 实例成员
+
+- length属性，得到函数形参数量
+- apply方法：调用函数，同时指定函数中的this指向，参数以数组的形式传入
+- call方法：调用函数，同时指定函数中的this指向，参数以列表形式传入
+- bind方法：得到一个新函数，该函数中的this始终指向指定的值
+
+通常，可以利用apply、call方法，将某个伪数组转换成真数组。
+
+### Array构造器
+
+凡是通过Array构造函数创建的对象，都是数组
+
+#### 静态成员
+
+Array.from(arr) 将一个伪数组转换为一个真数组
+
+Array.isArray(arr) 判断传入的值是否为真数组
+
+#### 实例成员
+
+- fill方法：用某个数据填充数组
+- pop 末尾删除
+- push 末尾添加
+- reverse 颠倒数组顺序
+- shift 首位删除
+- sort 排序
+- splice
+- unshift
+
+纯函数、无副作用函数： 不会导致当前对象发生改变
+
+- concat
+- join
+- slice
+- includes：数组中是否包含满足条件的元素，如果有两个参数，第二个参数表示从第几个下标开始找
+- indexOf
+- lastIndexOf
+- forEach
+- every: 数组中是否所有元素都满足
+- some: 数组中是否至少有一个元素满足
+- filter：过滤，返回一个满足条件的元素组成的数组
+- map：映射，将数组中的每一项映射成另外一项，返回一个新数组
+- reduce：统计，累计
+
+### 原始类型包装器
+
+- new 包装器(值):返回的是一个对象
+- 包装器(值): 返回的是一个原始类型
+
+#### Number
+
+##### 静态成员
+
+- Number.isNaN
+- Number.isFinite
+- Number.isInteger: 判断一个数据是否为整数
+- Number.parseFloat: 将一个数据转换为小数
+- Number.parseInt: 将一个数据转换为整数
+
+parseInt、parseFloat要求参数是一个字符串，如果不是字符串，则会先转换为字符串。
+从字符串开始位置进行查找，找到第一个有效的数字进行转换，如果没有找到，则返回NaN，左右空白字符会被忽略。
+
+parseInt，可以传入第二个参数，表示将给定的字符串，识别为多少进制。
+
+##### 实例成员
+
+- toFixed 
+- toPrecision: 以指定的精度返回一个数字字符串
+
+#### Boolean 
+
+#### String
+
+##### 静态成员
+- String.fromCharCode() 通过一串Unicode创建字符串
+
+##### 实例成员
+- length 字符串长度 （字符串是一个伪数组）
+- charAt 返回指定位置的字符
+- charCodeAt 返回表示给定索引的字符的Unicode的值
+- concat
+- includes
+- endsWith
+- startsWith
+- indexOf
+- lastIndexOf
+- padStart
+- padEnd
+- repeat
+- slice：从某个位置取到某个位置，位置可以是负数
+- substr：从某个位置开始取，取指定的长度，位置可以是负数
+- substring：从某个位置取到某个位置，位置不可以是负数，参数位置可以调换
+- toLowerCase
+- toUpperCase
+- split：分割字符串
+
+#### Math对象
+- random
+- PI 得到圆周率
+- abs 求绝对值
+- floor 向下取整
+- ceil 向上取整
+- max 得到一组数字的最大值，不传参，得到 -Infinity
+- min 得到一个数组的最小值，不传参，得到 Infinity
+- pow 求一个数字的幂次方
+- round 四舍五入
+
+#### Date构造函数
+
+##### 创建时间对象
+- 直接调用函数(不使用new)，忽略所有参数，直接返回当前时间的字符串
+- new Date(): 创建日期对象
+
+1. 无参，当前时间
+2. 1个参数，参数是数字，表示传入的是时间戳
+3. 两个参数以上，分别表示：年、月、日、时、分、秒、毫秒
+
+注意：月份的数字从0开始计算
+
+如果缺失参数日期部分默认为1，时分秒毫秒默认为0
+
+##### 实例成员
+
+- getDate：返回日期对象的月份中的第几天（1 - 31）
+- getUTCDate
+- getDay：返回指定日期对象的星期中的第几天（0 - 6）
+- getFullYear：返回年份
+- getMonth：返回月份，从 0 开始
+- getHours：返回小时
+- getMinutes：返回分钟
+- getSeconds：返回秒
+- getMilliseconds：返回毫秒
+- getTime：返回时间戳
+
+- setDate：设置日期对象的月份中的第几天（1 - 31）
+- setUTCDate
+- setDay：设置指定日期对象的星期中的第几天（0 - 6）
+- setFullYear：设置年份
+- setMonth：设置月份
+- setHours：设置小时
+- setMinutes：设置分钟
+- setSeconds：设置秒
+- setMilliseconds：设置毫秒
+- setTime：设置时间戳
+
+- toDateString：将日期部分转换为可读的字符串
+- toISOString：将整个对象转换为ISO标准的字符串格式
+- toLocaleDateString：根据当前系统的地区设置，将日期部分转换为可读的字符串
+- toLocaleString：根据当前系统的地区设置，将整个日期转换为可读的字符串
+- toLocaleTimeString：根据当前系统的地区设置，将时间部分转换为可读的字符串
+- toUTCString：将日期转换为以UTC计时的字符串
