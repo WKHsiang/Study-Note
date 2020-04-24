@@ -1,0 +1,1 @@
+1. temporal adj 暂时的 源:temporal dead zone 暂时性死区

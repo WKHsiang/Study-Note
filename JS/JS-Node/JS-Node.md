@@ -401,6 +401,7 @@ JS为了增强原始类型的功能，为boolean、string、number分别创建�
 - Object.keys(某个对象)，得到某个对象的所有属性名数组
 - Object.values(某个对象)，得到某个对象的所有属性值数组
 - Object.entries(某个对象)，得到某个对象所有属性名和属性值的数组
+- Object.freeze(某个对象)，冻结对象，其他代码不能删除或更改任何属性
 
 #### 实例成员
 

@@ -1,3 +1,51 @@
+### 1. let & const
+#### 1-1. 暂时性死区
+暂时性死区：在代码块中，使用let、const命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区” (temporal dead zone)
+```typescript
+function bar(x = y, y = 2) {
+    return [x, y]
+}
+bar()
+// 此代码会报错，因为x = y时, y未经声明，如果将x = y 和 y = 2调换位置则不会报错
+```
+#### 1-2. 块级作用域
+为何需要块级作用域？
+A: 没有块级作用域的情况下：
+- 1. 内层变量可能会覆盖外层变量
+```javascript
+var tmp = new Date()
+function() {
+    console.log(tmp)
+    if(false) {
+        var tmp = 'hello'
+    }
+}
+fn() // if中的tmp会覆盖外层的tmp
+```
+- 2. 用来计数的循环变量泄露为全局变量
+```javascript
+var s = 'hello'
+for (car i = 0; i < s.length; i++>) {
+    console.log(s[i])
+}
+console.log(i) // 5 此时 i 已泄露成为全局变量
+```
+
+**块级作用域的出现，使匿名立即执行函数表达式不再必要了**
+
+#### 1-3. const
+- const实际保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。对于简单数据类型来说，值就保存在变量指向的那个内存地址，因此等同于变量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的，至于它指向的数据结构是不是可变的，就完全不能控制了。
+
+#### 1-4. ES6声明变量的六种方法：
+- var
+- function
+- let
+- const
+- import
+- class
+
+其中var、function声明的全局变量，会变成顶层对象(浏览器为window，node为global)的属性，let、const、class声明的全局变量，不属于顶层对象的属性
+
 #### 7-1.普通符号
 
 符号是ES6新增的一个数据类型，它通过使用函数```Symbol(符号描述)```来创建
