@@ -8,6 +8,7 @@ function bar(x = y, y = 2) {
 bar()
 // 此代码会报错，因为x = y时, y未经声明，如果将x = y 和 y = 2调换位置则不会报错
 ```
+
 #### 1-2. 块级作用域
 为何需要块级作用域？
 A: 没有块级作用域的情况下：
@@ -36,6 +37,7 @@ console.log(i) // 5 此时 i 已泄露成为全局变量
 #### 1-3. const
 - const实际保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。对于简单数据类型来说，值就保存在变量指向的那个内存地址，因此等同于变量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的，至于它指向的数据结构是不是可变的，就完全不能控制了。
 
+
 #### 1-4. ES6声明变量的六种方法：
 - var
 - function
@@ -46,7 +48,88 @@ console.log(i) // 5 此时 i 已泄露成为全局变量
 
 其中var、function声明的全局变量，会变成顶层对象(浏览器为window，node为global)的属性，let、const、class声明的全局变量，不属于顶层对象的属性
 
-#### 7-1.普通符号
+
+
+
+### 2. Array
+- Array.from() 用于将两类对象转为真正的数组：类似数组的对象(array-like object) 和 可遍历(iterable)的对象，该方法对应了ES5中的`[].slice.call()`，可以接受第二个参数，用来对每个元素进行处理，将处理后的值放入返回的数组。Array.from()还可以用作将字符串转为数组，然后返回字符串的长度。因为它能够正确地处理各种Unicode字符，可以避免JS将大于\uFFFF的Unicode字符，算作两个字符的bug。
+
+- Array.of() 用于将一组值，转换为数组
+    - 参数不小于2个：返回参数组成的新数组
+    - 参数个数为1：指定数组的长度为1
+    - 参数为0：返回 []
+
+- arr.copyWithin(target, start, end) 在当前数组内部，将指定位置的成员复制到其他位置(会覆盖原有成员)，然后返回当前数组(此方法会修改当前数组)
+    - target：从该位置开始替换数据
+    - start：从该位置开始读取数据，默认为0
+    - end：到该位置前停止读取数据，默认等于数组的长度
+
+- arr.find() 用于找出第一个符合条件的数组成员(找出第一个返回值为true的成员，然后返回该成员)，若没有符合条件的成员，则返回undefined
+    - arr.find((value, index, arr)=>{return value > 0}) find方法的回调函数可以接受三个参数，以此为当前的值、当前值的索引和原数组
+    -arr.findIndex() 和find方法类似，返回第一个符合条件成员的索引，无符合条件成员时，返回-1
+    - arr.find() 和 arr.findIndex() 都可以接受第二个参数，用来绑定回调函数的this，即回调函数中的this指向这个参数。
+    - findIndex方法配合Object.is()方法，可以弥补indexOf()的不足
+    ```jacascript
+    [NaN].indexOf(NaN) //  -1
+
+    [NaN].findIndex(x=> Object.is(NaN, x)) // 0
+    ```
+
+- arr.fill() 使用给定值，填充一个数组
+    - fill可以接受第二个和第三个参数，用于指定填充的起始位置和结束位置
+```javascript
+['a', 'b' ,'c'].fill(7) // [7, 7, 7]
+
+new Array(3).fill(7) // [7, 7, 7]
+```
+
+- arr.entries() arr.keys() arr.values()
+
+- arr.includes() 判断某个数组是否包含给定的值，该方法的第二个参数表示搜索索引的起始位置，默认为0
+    - includes VS indexOf：
+        - indexOf有两个缺点，一是不够语义化，要比较是否不等于-1，表达起来不够直观；二是，它内部使用严格相等运算符进行判断，会导致对NaN的误判
+        - includes 不存在这种问题，返回 true 或 false
+
+### 3. 对象
+
+#### 连判断运算符
+- `?.` 用于读取对象内部某个属性时判断该属性是否存在，左侧的对象为null或undefined时，不再往下运算，返回undefined
+```javascript
+// 读取message.body.user.firstName
+const firstName = message?.body?.user?.firstName
+```
+
+#### Null判断运算符
+- `??` 类似于 ||，但是只有运算符左侧的值为null或undefined时，才会返回右侧的值。
+
+#### 对象新增方法
+- Object.is() 比较两个值是否严格相等，与 === 的行为基本一致，不同之处有两个，一是+0不等于-0，二是NaN等于自身
+
+- Object.assign() 用于对象的合并
+    - 只有一个参数（参数为对象），会直接返回该参数
+    - 参数不是对象，则会先转成对象，再返回
+    - 若将undefined和null作为参数，会报错
+    - 如果非对象参数出现在源对象位置(即非首参数)，不会报错
+    - 该方法实行的是浅拷贝
+    - 处理数组时会将数组当成对象来处理
+
+- Object.getOwnPropertyDescriptior(obj, valueName) 用于获取obj中的valueName属性的描述对象(Descriptor)
+```javascript
+let obj = {foo, 123}
+Object.getOwnPropertyDescriptor(obj, 'foo')
+// {
+//      value: 123
+//      writable: true,
+//      enumerable: true,
+//      configurable: true
+// }
+```
+
+- Object.getOwnPropertyDescriptors() 返回某个对象属性的描述对象
+
+- Object.setPropertyOf(obj, prototype) 将prototype设置为obj的原型
+
+#### 4-1.普通符号
 
 符号是ES6新增的一个数据类型，它通过使用函数```Symbol(符号描述)```来创建
 
@@ -111,7 +194,7 @@ hero.gongji()
 hero.getRandom() // 报错
 ```
 
-#### 7-2.共享符号
+#### 4-2.共享符号
 
 根据某个符号名称(符号描述)能够得到同一个符号
 
@@ -119,7 +202,7 @@ hero.getRandom() // 报错
 Symbol.for("符号名/符号描述")  // 获取共享符号
 ```
 
-#### 7-3.知名(公共、具名)符号
+#### 4-3.知名(公共、具名)符号
 
 知名符号是一些具有特殊含义的共享符号，通过 Symbol 的静态属性得到
 
@@ -151,7 +234,7 @@ A[Symbol.hasInstance](obj)
 
 该知名符号会影响 Object.prototype.toString 的返回值
 
-#### 8-0.回顾事件循环
+#### 5-0.回顾事件循环
 
 JS运行的环境称之为宿主环境
 
@@ -186,7 +269,7 @@ JS引擎对事件队列的取出执行方式，以及与宿主环境的配合，
 
 当执行栈清空时，JS引擎首先会将微任务中的所有任务依次执行结束，如果没有微任务，则执行宏任务
 
-#### 8-1.事件和回调函数的缺陷
+#### 5-1.事件和回调函数的缺陷
 
 事件：某个对象的属性是一个函数，当发生某一件事时，运行该函数
 
@@ -198,7 +281,7 @@ JS引擎对事件队列的取出执行方式，以及与宿主环境的配合，
 1. 回调地狱：某个异步操作需要等待之前的异步操作完成，无论回调还是事件，都会陷入不断的嵌套
 2. 异步之间的联系：某个异步操作需要等待多个异步操作的结果，对这种联系的处理，会让代码的复杂度剧增
 
-#### 8-2. 异步处理的通用模型
+#### 5-2. 异步处理的通用模型
 
 1. ES6将某一件可能发生的异步操作的事情，分为两个阶段：**unsettled**和**settled**
 
@@ -228,7 +311,7 @@ JS引擎对事件队列的取出执行方式，以及与宿主环境的配合，
 
 4. 整件事称之为 Promise
 
-#### 8-3. Promise的基本使用
+#### 5-3. Promise的基本使用
 
 1. 未决阶段的处理函数是同步的，会立即执行
 
@@ -254,7 +337,7 @@ pro.then(data =>{
 })
 ```
 
-#### 8-4. Promise的串联
+#### 5-4. Promise的串联
 当后续的Promise需要用到之前的Promise的处理结果时，就需要Promise的串联
 
 Promise对象中，无论是then方法，还是catch方法，都有返回值，返回值是一个全新的Promise对象，它的状态满足下面的规则：
