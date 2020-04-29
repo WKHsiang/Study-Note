@@ -46,6 +46,8 @@ console.log(i) // 5 此时 i 已泄露成为全局变量
 
 其中var、function声明的全局变量，会变成顶层对象(浏览器为window，node为global)的属性，let、const、class声明的全局变量，不属于顶层对象的属性
 
+new.target 用于判断构造函数是否是由new创建的
+
 #### 7-1.普通符号
 
 符号是ES6新增的一个数据类型，它通过使用函数```Symbol(符号描述)```来创建
