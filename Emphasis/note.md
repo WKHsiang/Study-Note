@@ -30,3 +30,6 @@ Array.from(arrayLike, x => x * x)
 // 等同于
 Array.from(arrayLike).map(x=> x * x)
 ```
+
+## Git
+1. 新建远程分支后本地无法看到该分支，可用`git remote update --prune`解决
