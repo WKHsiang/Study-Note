@@ -3,7 +3,7 @@
  ## state
 
  - this.$store.state.xxx
- - mapState(['xxx', 'yyy']) 
+ - mapState(['xxx', 'yyy'])
  - mapState({
      newName: state=>state.xxx
  })
@@ -11,7 +11,7 @@
  ## getters
 
  - this.$store.getters.xxx
- - mapGetters(['xxx'])   
+ - mapGetters(['xxx'])
  - mapGetters({
      newName: 'xxx'
    })
