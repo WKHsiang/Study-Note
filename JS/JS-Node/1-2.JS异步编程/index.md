@@ -108,6 +108,8 @@ setTomeout 宏任务
     resolve: fulfilled
     reject: rejected
 
+- 4. then方法内部做的事情就是判断状态，如果状态是成功，调用成功的回调函数，如果是失败，调用失败的回调函数，then方法是被定义在原型对象中的
+
 ## 5 Generator异步方案
 ```javascript
 function ajax(url) {

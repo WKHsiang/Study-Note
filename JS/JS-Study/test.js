@@ -1,3 +1,15 @@
+const MyPromise = require('./myPromise.js')
+
+let promise = new MyPromise((resolve, reject) => {
+    resolve("&*&*&*")
+})
+
+promise.then(val => {
+    console.log(val)
+}, err => {
+    console.log(err)
+})
+
 // world wild web ==> W. W. W
 const fp = require("lodash/fp")
 
