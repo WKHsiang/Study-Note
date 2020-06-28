@@ -109,4 +109,87 @@ property.gender = true
         - set 写入某个属性
         - has in 操作
         - deleteProperty delete操作符
-        - getProper
+        - getPrototypeOf Object.getPrototypeOf()
+        - setPrototypeOf Object.setPrototypeOf()
+        - isExtensible Object.isExtensible()
+        - preventExtensions Object.preventExtensions()
+        - getOwnPropertyDescriptor Object.getOwnPropertyDescriptor()
+        - defineProperty Object.defineProperty()
+        - ownKeys Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()
+        - apply 调用一个函数
+        - construct 用 new 调用一个函数
+
+    - Proxy 更好的支持数组对象的监视
+        ```javascript
+        const list = []
+        // 使用Proxy监视数组的操作
+        const listProxy = new Proxy(list, {
+            set(target, property, value) {
+                console.log('set', property, value) // set 0 100
+                target[property] = value
+                return true
+            }
+        })
+
+        listProxy.push(100)
+        ```
+    - Proxy是以非侵入的方式监管了对象的读写
+
+- Reflect 统一的对象操作API，它属于一个静态类，不能通过new的方式构建一个新的实例对象
+
+    ```javascript
+    const obj = {
+        foo: '123',
+        bar: '456'
+    }
+    const proxy = new Proxy(obj, {
+        get(target, property) {
+
+            console.log('lol...........')
+            return Reflect.get(target, property)
+        }
+    })
+    ```
+    - Reflect内部封装了一系列对对象的底层操作
+        - Reflect.apply()
+            - 对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 Function.prototype.apply() 功能类似
+        - Reflect.construct()
+            - 对构造函数进行 new 操作，相当于执行 `new target(...args)`
+        - Reflect.defineProperty()
+            - 和 `Object.defineProperty()` 类似
+        - Reflect.deleteProperty()
+            -作为函数的delete操作符，相当于执行`delete target[name]`
+        - Reflect.get()
+            - 获取对象身上某个属性的值，类似于 `target[name]`
+        - Reflect.getOwnPropertyDescriptor()
+            - 返回指定对象上一个自有属性对应的属性描述符，类似于 `Object.getOwnPropertyDescriptor()`
+        - Reflect.getPropertyOf()
+            - 返回指定对象的原型，类似于 `Object.getPrototypeOf()`
+        - Reflect.has()
+            - 判断一个对象是否存在某个属性，和 in 运算符 的功能完全相同
+        - Reflect.isExtensible()
+            - 类似于 `Object.isExtensible()`，判断一个对象是否是可扩展的（是否可以在它上面添加新的属性）
+        - Reflect.ownKeys()
+            - 返回一个包含所有自身属性（不包含继承属性）的数组。(类似于 `Object.keys()`, 但不会受enumerable影响)
+        - Reflect.preventExtensions()
+            - 让一个对象变的不可扩展，类似于 `Object.preventExtensions()`，返回一个Boolean
+            ```javascript
+            const object1 = {};
+
+            Object.preventExtensions(object1);
+
+            try {
+            Object.defineProperty(object1, 'property1', {
+                value: 42
+            });
+            } catch (e) {
+            console.log(e);
+            // Expected output: TypeError: Cannot define property property1, object is not extensible
+            }
+            ```
+        - Reflect.set()
+            - 将值分配给属性的函数。返回一个Boolean，如果更新成功，则返回true
+        - Reflect.setPropertyOf()
+            - 设置一个指定的对象的原型，类似于 `Object.setPrototypeOf()`
+        
+        *在`arr.forEach()`中，可以使用`arr.some(true)`或 `arr.every(false)`来终止循环*
