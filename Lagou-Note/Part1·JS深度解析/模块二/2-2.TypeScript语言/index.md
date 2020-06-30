@@ -58,4 +58,160 @@ const a: 'male' | 'female' = 'male'
 
 type StringOrNumber = string | number
 const b: StringOrNumber = 'hhh'
+// Mixed类型 Any类型 所有类型的联合类型 string | number | boolean | ...
+function passMixed (value: mixed) {}
+passMixed('string')
+passMixed(100)
+//------------------------------------------------------------
+function passMixed (value: any) {}
+passMixed('string')
+passMixed(100)
+
+// 两者差异： any 弱类型    mixed 强类型
+// 所有类型网址  https://flow.org/en/docs/types/        
+// https://www.saltycrane.com/cheat-sheets/flow-type/latest/
+```
+
+## 3. TypeScript
+- JS的超集（superset）
+```typescript
+// 基本类型
+const a: string = 'hhhh'
+const b: number = Infinity // NaN // 100
+const c: boolean = false // true
+const d: null = null
+const e: void = undefined
+const f: symbol = Symbol()
+// Object 不单指普通的对象，而是包括了数组、对象
+const foo: object = function() {} // [] // {}
+// 数组类型
+const arr1: Array<number> = [1, 2, 3]
+const arr2: number[] = [1, 2, 3]
+// 元组
+const arr3: [string, number] = ['hhh', 100]
+// 枚举类型
+enum PostStatus {
+    Draft = 5,
+    Unpublished,
+    published
+}
+const post = {
+    title: '...',
+    status: PostDtatus.published
+}
+// 函数类型
+function func (a: number, b?: string, ...rest: number[]): string {
+    return 'hhh'
+}
+func(1, 2)
+// 类型断言
+const nums = [1, 2, 3, 4]
+const res = nums.find(i => i > 0) // ts无法判断res一定为number，它认为res为 number | undefined
+const num1 = res as number  // 推荐使用
+const num2 = <number>res    // JSX下不能使用
+```
+*显示中文错误提示：`tsc --locale zh-CN`*
+
+### 3-1. 接口 Interfaces
+用于约束一个对象的结构
+```typescript
+interface Post {
+    title: string
+    content: string
+    subtitle?: string         // 可选
+    readonly summary: string  // 只读
+}
+
+function printPost (post: Post) {
+    console.log(post.title)
+    console.log(post.content)
+}
+
+printPost({
+    title: "标题",
+    content: "内容"
+})
+// -----------------------------------------------------------
+interface Cache {
+    [prop: string]: string  // 限定 k 和 v 都是string类型
+}
+
+const cache: Cache = {}
+
+cache.foo = "hhh"
+// -----------------------------------------------------------
+// 类
+class Person {
+    public name: string // 公有属性
+    private age: number // 私有属性
+    protected gender: string // 受保护的 只能在 自身 及 其子类 中访问
+    constructor(name: string, age: number) {
+        this.name = name
+        this.age = age
+        this.gender = '男'
+    }
+}
+
+class Student extends Person {
+    private constructor(name: string, age: number) {
+        super(name, age)
+        console.log(this.gender)
+    }
+
+    static create (name: string, age: number) {
+        return new Student(name, age)
+    }
+}
+
+const student = Student.create('hhh', 18)
+// -----------------------------------------------------------
+// 类和接口
+interface Eat {
+    eat(food: string): void
+}
+
+interface Run {
+    run(distance: number): void
+}
+
+class People implements Eat, Run {
+    eat(food: string): void {
+        console.log(`吃${food}`)
+    }
+    run(distance: number): void {
+        console.log(distance)
+    }
+}
+
+class Animal implements Eat, Run {
+    eat(food: string): void {
+        console.log(`舔着吃${food}`)
+    }
+    run(distance: number): void {
+        console.log(distance)
+    }
+}
+
+// -----------------------------------------------------------
+// 抽象类
+abstract class Aniamls {
+    eat(food: string): void {
+        console.log(`吃${food}`)
+    }
+    abstract run(distance: number): void
+}
+class Dog extends Aniamls {
+    run(distance: number): void {
+        console.log(`Dog自身的${distance}`)
+    }
+}
+const dog = new Dog()
+dog.eat('骨头')
+dog.run(100)
+// -----------------------------------------------------------
+// 泛型
+function createArray<T>(length: number, value: T): T[] {
+    const arr = Array<T>(length).fill(value)
+    return arr
+}
 ```
