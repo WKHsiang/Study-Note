@@ -68,3 +68,81 @@
 
 // Symbol用途
 // 私有化变量
+
+// (function(){
+//     var x = y = 1
+// })()
+
+// console.log(y)
+// console.log(x)
+
+// let show = () => {
+//     console.log(this)
+// }
+// let obj = { show }
+// obj.show()
+// obj.otherShow = show.bind(obj)
+// obj.otherShow()
+// let newObj = new obj.otherShow()
+
+// 观察者模式
+class Subject {
+    constructor() {
+        this.Observers = []
+    }
+
+    add(observer) {
+        this.Observers.push(observer)
+    }
+    remove(observer) {
+        this.Observers.filter(item => item === observer)
+    }
+    notify() {
+        this.Observers.forEach(item => {
+            item.update()
+        })
+    }
+}
+
+class Observer {
+    constructor(name) {
+        this.name = name
+    }
+    update() {
+        console.log(this.name)
+    }
+}
+
+// 发布订阅模式
+let pubsub = (() => {
+    let topics = {}
+    function subscribe(topic, fn) {
+        if (!topics[topic]) {
+            topics[topic] = []
+        }
+        topics[topic].push(fn)
+    }
+
+    function publisher(topic, ...arg) {
+        if (!topics[topic]) return
+        for (let fn of topics[topic]) {
+            fn(...arg)
+        }
+    }
+    return { subscribe, publisher }
+})()
+
+// ----------------------------------------
+const xhr = XMLHttpRequest()
+
+xhr.open(method, url, async)
+
+xhr.send(data)
+
+xhr.onreadystatechange = () => {
+    if (xhr.readyStatus === 4) {
+        if (xhr.status == 200) {
+            console.log(xhr.responseText)
+        }
+    }
+}

@@ -1,30 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MyFuncComp from './components/myFuncComp'
+import MyClassComp from './components/myClassComp'
 
-let srcs = [1, 3, 5]
 
-let index = 0
+ReactDOM.render(<><MyFuncComp /><MyClassComp number={10} /></>, document.getElementById('root'))
 
-let timer = null
+// let srcs = [1, 3, 5]
 
-function render() {
-  ReactDOM.render(<span onMouseEnter={stopSetInterval} onMouseLeave={startSetInterval}>{srcs[index]}</span>, document.getElementById('root'))
-}
+// let index = 0
 
-function stopSetInterval() {
-  clearInterval(timer)
-}
+// let timer = null
 
-function startSetInterval() {
-  start()
-}
+// function render() {
+//   ReactDOM.render(<span onMouseEnter={stopSetInterval} onMouseLeave={startSetInterval}>{srcs[index]}</span>, document.getElementById('root'))
+// }
 
-function start() {
-  stopSetInterval()
-  timer = setInterval(() => {
-    index = (index + 1) % 3
-    render()
-  }, 1000)
-}
+// function stopSetInterval() {
+//   clearInterval(timer)
+// }
 
-start()
+// function startSetInterval() {
+//   start()
+// }
+
+// function start() {
+//   stopSetInterval()
+//   timer = setInterval(() => {
+//     index = (index + 1) % 3
+//     render()
+//   }, 1000)
+// }
+
+// start()
