@@ -38,7 +38,7 @@
     vm.$mount('#app');
   ```
 - 问：和el有什么不同？
-  > 答：本质上没什么不同，$mount为手动挂载，在项目中有时要进行延迟挂载，比如有时要在挂载之前进行一些其他的操作，比如判断等等（但是，这样做的时候很少，比邓哥回家的次数还少，emmmmm）
+  > 答：本质上没什么不同，$mount为手动挂载，在项目中有时要进行延迟挂载，比如有时要在挂载之前进行一些其他的操作，比如判断等等（但是，这样做的时候很少）
 
 ## data
 - 类型：对象
@@ -97,7 +97,6 @@
       {{ !wang }}
       <!-- 三元表达式 -->
       {{ 1 + 1 === 3 ? '邓旭明' : '正常人' }}
-      <!-- 函数调用也是表达式，也可以使用,这个以后再学哈... -->
     </div>
   ```
 
@@ -315,7 +314,7 @@ Vue.nextTick().then(() => {
     // 控制台打印顺序：promise > timeout
     setTimeout(() => {
       console.log('timeout');
-    }, 0)  
+    }, 0)
     Promise.resolve().then(() => {
       console.log('promise');
     })
@@ -1546,8 +1545,8 @@ const vm = new Vue({
 ```html
 <div id="app">
   <input 
-    type="checkbox" 
-    id="checkbox" 
+    type="checkbox"
+    id="checkbox"
     v-model="checked"
   />
   <label for="checkbox">{{ checked }}</label>
