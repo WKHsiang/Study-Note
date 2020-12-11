@@ -10,7 +10,6 @@
 
 ### 2. 为什么要使用虚拟DOM
 
-
 - 避免直接操作DOM，提高开发效率
 
 - 作为一个中间层可以跨平台
@@ -23,7 +22,6 @@
 
 ### 3. h函数
 
-
 - vm.$createElement(tag, data, children, normalizeChildren)
 
     - tag：标签名称或者组件对象
@@ -33,7 +31,6 @@
     - children：tag中的文本内容或者子节点
 
 ### 4. h函数的返回结果–VNode
-
 
 - VNode的核心属性
 
