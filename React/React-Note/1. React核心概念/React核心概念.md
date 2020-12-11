@@ -44,7 +44,7 @@ export default class MyClassComp extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            left: props.number
+            left: this.props.number
         }
 
         this.timer = setInterval(() => {
@@ -158,3 +158,6 @@ React官方认为，某个数据的来源必须是单一的
     - 在该函数中，通常用于实现一些附加的dom操作
     - 该函数的返回值，会作为componentDidUpdate的第三个参数
 
+### 传递元素内容
+
+如果给自定义组件传递元素内容，则React会将元素内容作为children属性传递过去。
