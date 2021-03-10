@@ -144,7 +144,6 @@ property.gender = true
     }
     const proxy = new Proxy(obj, {
         get(target, property) {
-
             console.log('lol...........')
             return Reflect.get(target, property)
         }
